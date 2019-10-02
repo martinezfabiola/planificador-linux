@@ -9,8 +9,7 @@ import org.json.simple.JSONObject;
 
 public class WriteJSONExample {
 
-    public static void main( String[] args ) throws InterruptedException
-    {
+    public static void main( String[] args ) throws InterruptedException {
         // Argumentos
         int cantidadProcesos = Integer.parseInt(args[0]); // Cantidad de procesos
 
