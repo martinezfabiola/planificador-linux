@@ -32,4 +32,12 @@ Nota: la velocidad está representada en segudos (ej. 10 minutos = 600 segundos 
 
 # Árbol Rojo y Negro
 
-Métodos implementados: inserción y eliminación.
+Métodos implementados: 
+- Inserción y eliminación junto a todos los metodos auxiliares necesarios para manetener el 
+arbol balanceado.
+- Metodos auxiliares para verificacion de nodos
+- Metodo para obtener el minimo del arbol
+
+Basado en: https://github.com/KnIfER/RBTree-java
+
+

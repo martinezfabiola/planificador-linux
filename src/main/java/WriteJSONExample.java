@@ -1,12 +1,8 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.Integer;
-import java.util.Calendar;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import java.lang.InterruptedException;
-import java.lang.IllegalArgumentException;
-
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,54 +13,42 @@ public class WriteJSONExample {
     {
         // Argumentos
         int cantidadProcesos = Integer.parseInt(args[0]); // Cantidad de procesos
-        int velocidad = Integer.parseInt(args[1]); // Velocidad en segundos (ej. 10 min = 60 segundos)
-        int cantidadCPU = Integer.parseInt(args[2]); // Cantidad de CPU
-        int cantidadIO = Integer.parseInt(args[3]); // Cantidad de IO
 
-
-        JSONArray cpu = new JSONArray(); // Arreglo de cpu
-        JSONArray io = new JSONArray(); // Arreglo de io
         JSONArray listaProcesos = new JSONArray(); // Arreglo de procesos
 
         Integer id = 0; // Contador para id's de procesos
         Random random = new Random();
 
-        // Verificar que IO tenga uno menos que CPU
-        if (cantidadIO != cantidadCPU - 1){
-            throw new IllegalArgumentException("IO debe ser igual a CPU - 1");
-        }
+        int tiempo_llegada = 0;
 
         for (int i = 0; i < cantidadProcesos; i++) {
-
-            // Cronometro
-            Calendar cronometro = Calendar.getInstance();
-            Integer hora = cronometro.get(Calendar.HOUR_OF_DAY); // hora
-            Integer minutos = cronometro.get(Calendar.MINUTE); // minutos
-            Integer segungos = cronometro.get(Calendar.SECOND); // segundos
+            JSONArray cpu = new JSONArray(); // Arreglo de cpu
+            JSONArray io = new JSONArray(); // Arreglo de io
+            int cantidadCPU = random.nextInt(20) + 1; // Cantidad de CPU
+            int cantidadIO = cantidadCPU - 1; // Cantidad de IO
 
             // Añadir información del proceso a objeto JSON
             JSONObject infoProceso = new JSONObject();
             infoProceso.put("id", id);
-            infoProceso.put("tiempoLlegada", hora + ":" + minutos + ":" + segungos);
+            infoProceso.put("tiempoLlegada", tiempo_llegada);
             infoProceso.put("prioridad", random.nextInt(10));
 
             for (int j = 0; j < cantidadCPU; j++) {
-                cpu.add(random.nextInt(40));
+                cpu.add(random.nextInt(100));
             }
 
             for (int k = 0; k < cantidadIO; k++) {
-                io.add(random.nextInt(40));
+                io.add(random.nextInt(100));
             }
 
-            infoProceso.put("cpu", cpu.toString());
-            infoProceso.put("io", io.toString());
+            infoProceso.put("cpu", cpu);
+            infoProceso.put("io", io);
 
             // Añadir proceso a lista de procesos
             listaProcesos.add(infoProceso);
 
             id++;
-            Thread.sleep(1000);
-            cronometro.add(Calendar.SECOND, velocidad);
+            tiempo_llegada = tiempo_llegada + random.nextInt(101) + 1;
         }
 
         try (FileWriter file = new FileWriter("procesos.json")) {
