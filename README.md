@@ -12,3 +12,17 @@ La principal estructura para llevar a cabo estas tareas es un árbol rojo negro,
 - José Bracuto
 - Fabiola Martínez
 
+# Requerimientos
+- Java 8
+- Maven
+- IDE (se recomienda IntelliJ)
+
+# Generador de Procesos
+
+- Argumentos : [ cantidad de procesos ] [ velocidad (segundos)] [ CPU ] [ IO ]
+
+Nota: la velocidad está representada en segudos (ej. 10 minutos = 600 segundos ).
+
+# Árbol Rojo y Negro
+
+Métodos implementados: inserción y eliminación.
