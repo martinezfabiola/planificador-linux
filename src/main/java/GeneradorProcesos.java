@@ -7,7 +7,7 @@ import java.lang.InterruptedException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class WriteJSONExample {
+public class GeneradorProcesos {
 
     public static void main( String[] args ) throws InterruptedException
     {
