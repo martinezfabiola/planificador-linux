@@ -20,14 +20,12 @@ La principal estructura para llevar a cabo estas tareas es un árbol rojo negro,
 # Generador de Procesos
 
 **Entrada**
-- Argumentos : [ cantidad de procesos ] [ velocidad (segundos)] [ CPU ] [ IO ]
-
-Nota: la velocidad está representada en segudos (ej. 10 minutos = 600 segundos ).
+- Argumentos : [ cantidad de procesos ]
 
 **Salida**
 - Arreglos de procesos
 ```
-[{"tiempoLlegada":"23:55:2","io":"[17,20]","cpu":"[19,3,32]","id":0,"prioridad":6},{"tiempoLlegada":"23:55:3","io":"[17,20,38,11]","cpu":"[19,3,32,7,0,16]","id":1,"prioridad":5}]
+[{"tiempoLlegada":0,"io":[42,97,89,13,59,0,98,58,74],"cpu":[22,82,69,83,45,96,70,69,29,45],"id":0,"prioridad":2},{"tiempoLlegada":70,"io":[60,37,84,20,12,52,58,51,73,19,96,47,30],"cpu":[36,14,58,26,22,4,94,17,60,79,44,90,37,69],"id":1,"prioridad":8},{"tiempoLlegada":165,"io":[52,48,67,3,5,47,30,45,23,98,44,64,47,11],"cpu":[76,4,58,44,75,74,52,98,36,72,96,0,80,20,4],"id":2,"prioridad":6}]
 ```
 
 # Árbol Rojo y Negro
