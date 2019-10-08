@@ -34,11 +34,11 @@ public class GeneradorProcesos {
             infoProceso.put("prioridad", random.nextInt(10));
 
             for (int j = 0; j < cantidadCPU; j++) {
-                cpu.add(random.nextInt(100));
+                cpu.add(random.nextInt(100) + 1);
             }
 
             for (int k = 0; k < cantidadIO; k++) {
-                io.add(random.nextInt(100));
+                io.add(random.nextInt(100) + 1);
             }
 
             infoProceso.put("cpu", cpu);
