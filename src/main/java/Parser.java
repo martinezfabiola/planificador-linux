@@ -47,15 +47,15 @@ public class Parser {
                 );
 
                 // Imprimimos el orden en que seran ejecutados los procesos
-                System.out.println("Proceso con pid: " + pid);
-                System.out.print(newProcess.getNextCpuTime());
-                while (newProcess.hasAnotherIo()) {
-                    System.out.print(", ");
-                    System.out.print(newProcess.getNextIoTime());
-                    System.out.print(", ");
-                    System.out.print(newProcess.getNextCpuTime());
-                }
-                System.out.println();
+//                System.out.println("Proceso con pid: " + pid);
+//                System.out.print(newProcess.getNextCpuTime());
+//                while (newProcess.hasAnotherIo()) {
+//                    System.out.print(", ");
+//                    System.out.print(newProcess.getNextIoTime());
+//                    System.out.print(", ");
+//                    System.out.print(newProcess.getNextCpuTime());
+//                }
+//                System.out.println();
                 pid = pid + 1;
             }
 

@@ -19,13 +19,13 @@ public class RBTree<T extends Comparable<T>> {
     }
 
 
-    private void setBlack(RBNode<T> node) {
+    private synchronized void setBlack(RBNode<T> node) {
         if (node != null)
             node.color = BLACK;
     }
 
 
-    private void setRed(RBNode<T> node) {
+    private synchronized void setRed(RBNode<T> node) {
         if (node != null)
             node.color = RED;
     }
@@ -36,7 +36,7 @@ public class RBTree<T extends Comparable<T>> {
     }
 
 
-    private void setColor(RBNode<T> node, boolean color) {
+    private synchronized void setColor(RBNode<T> node, boolean color) {
         if (node != null)
             node.color = color;
     }
@@ -47,14 +47,14 @@ public class RBTree<T extends Comparable<T>> {
     }
 
 
-    private void setParent(RBNode<T> node, RBNode<T> parent) {
+    private synchronized void setParent(RBNode<T> node, RBNode<T> parent) {
         if (node != null)
             node.parent = parent;
     }
 
 
-    public void add(T key, int pid, int time) {
-        RBNode<T> newNode = new RBNode<>(key, pid, time, RED, null, null, null);
+    public synchronized void add(T key, Process process, int time) {
+        RBNode<T> newNode = new RBNode<T>(key, process, time, RED, null, null, null);
         insert(newNode);
     }
 
@@ -70,7 +70,7 @@ public class RBTree<T extends Comparable<T>> {
     }
 
 
-    public RBNode<T> getMinimum() {
+    public synchronized RBNode<T> getMinimum() {
         RBNode<T> minimum = minimum();
         if (minimum != null)
             remove(minimum);
@@ -78,7 +78,7 @@ public class RBTree<T extends Comparable<T>> {
     }
 
 
-    private void insert_helper(RBNode<T> node) {
+    private synchronized void insert_helper(RBNode<T> node) {
         // Funcion que agarra el nodo a insertar y lo ubica en el arbol
 
         int cmp;
@@ -113,7 +113,7 @@ public class RBTree<T extends Comparable<T>> {
     }
 
 
-    public void insert(RBNode<T> newNode) {
+    public synchronized void insert(RBNode<T> newNode) {
         // Funcion que inserta un nodo al arbol y lo balancea
 
         insert_helper(newNode);
@@ -191,7 +191,7 @@ public class RBTree<T extends Comparable<T>> {
      *    ly   ry           lx  ly
      *
      */
-    private void leftRotate(RBNode<T> node) {
+    private synchronized void leftRotate(RBNode<T> node) {
         // Funcion que rota los nodos del arbol desde un nodo eje hacia la izquierda como se muestra
         // en la figura anterior
 
@@ -231,7 +231,7 @@ public class RBTree<T extends Comparable<T>> {
      *  lx  rx                    rx  ry
      *
      */
-    private void rightRotate(RBNode<T> node) {
+    private synchronized void rightRotate(RBNode<T> node) {
         // Funcion que rota los nodos del arbol desde un eje nodo hacia la derecha como se muestra
         // en la figura anterior
 
@@ -260,7 +260,7 @@ public class RBTree<T extends Comparable<T>> {
         node.parent = x;
     }
 
-    private void remove(RBNode<T> node) {
+    private synchronized void remove(RBNode<T> node) {
         RBNode<T> child, parent;
         boolean color;
 
@@ -332,7 +332,7 @@ public class RBTree<T extends Comparable<T>> {
             removeFixUp(child, parent);
     }
 
-    private void removeFixUp(RBNode<T> node, RBNode<T> parent) {
+    private synchronized void removeFixUp(RBNode<T> node, RBNode<T> parent) {
         RBNode<T> other;
 
         while ((node==null || isBlack(node)) && (node != this.root)) {

@@ -3,18 +3,18 @@ public class RBNode<T extends Comparable<T>> {
     private static final boolean BLACK = true;
 
     boolean color;
-    T key;
-    int pid;
-    int init_time;
+    T key;  // vruntime del proceso, tiempo que ha sido ejecutado en el cpu
+    Integer init_time;
+    Process process;
     RBNode<T> left;
     RBNode<T> right;
     RBNode<T> parent;
 
 
-    public RBNode(T key, int pid, int time, boolean color, RBNode parent, RBNode left, RBNode right) {
+    public RBNode(T key, Process process, Integer time, boolean color, RBNode<T> parent, RBNode<T> left, RBNode<T> right) {
         this.key = key;
-        this.pid = pid;
         this.init_time = time;
+        this.process = process;
         this.color = color;
         this.parent = parent;
         this.left = left;
@@ -22,7 +22,7 @@ public class RBNode<T extends Comparable<T>> {
     }
 
 
-    public RBNode(T key, int pid, int time) {
-        this(key, pid, time, RED, null, null, null);
+    public RBNode(T key, Process process, Integer time) {
+        this(key, process, time, RED, null, null, null);
     }
 }
