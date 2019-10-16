@@ -1,33 +1,18 @@
-import java.util.concurrent.TimeUnit;
-
-public class Timer implements Runnable {
+public class Timer {
     private int clock;
-    private int speed;
-    private int sleepTime;
+    int speed;
+    int sleepTime;
 
-    Timer(int sleepTime, int speed){
+    Timer(int sleepTime){
         this.clock = 0;
-        this.speed = sleepTime;
         this.sleepTime = sleepTime;
     }
 
-    public int getSleepTime() {
-        return sleepTime;
+    public int getTime() {
+        return this.clock;
     }
 
-    public void setSleepTime(int sleepTime) {
-        this.sleepTime = sleepTime;
-    }
-
-    public int addTime(int timeQty){
-        return this.clock + timeQty;
-    }
-
-    public void run() {
-        try {
-            Thread.sleep(this.sleepTime * this.speed);
-        } catch (InterruptedException e) {
-        }
-
+    public synchronized void tick(){
+        this.clock = this.clock + 1;
     }
 }

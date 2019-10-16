@@ -53,8 +53,8 @@ public class RBTree<T extends Comparable<T>> {
     }
 
 
-    public synchronized void add(T key, Process process, int time) {
-        RBNode<T> newNode = new RBNode<T>(key, process, time, RED, null, null, null);
+    public synchronized void add(T key, Process process) {
+        RBNode<T> newNode = new RBNode<T>(key, process, RED, null, null, null);
         insert(newNode);
     }
 

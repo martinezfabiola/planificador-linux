@@ -45,7 +45,7 @@ public class ProcessGenerator implements Runnable {
             Process process = new Process(id, random.nextInt(10), tiempo_llegada, cpu, io);
 
             // TODO: Cual va a ser el tiempo de los procesos
-            tree.add(0, process, tiempo_llegada);
+            tree.add(0, process);
 
             // TODO: Hacer algo con los procesos
             try {

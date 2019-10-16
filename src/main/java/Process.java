@@ -6,6 +6,7 @@ public class Process {
     Integer arrivingTime;
     private List<Integer> cpuTimes;
     private List<Integer> ioTimes;
+    Integer vruntime;
 
     Process(Integer pid, Integer priority, Integer arrivingTime, List<Integer> cpuTimes, List<Integer> ioTimes) {
         this.pid = pid;
@@ -13,6 +14,7 @@ public class Process {
         this.arrivingTime = arrivingTime;
         this.cpuTimes = cpuTimes;
         this.ioTimes = ioTimes;
+        this.vruntime = 0;
     }
 
 
@@ -24,6 +26,11 @@ public class Process {
         }
 
         return null;
+    }
+
+
+    public void remainingTime(Integer time) {
+        this.cpuTimes.add(0, time);
     }
 
 
