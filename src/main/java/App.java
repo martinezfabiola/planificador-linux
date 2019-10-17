@@ -1,44 +1,20 @@
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-import java.util.ArrayList;
 
-import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.SplitPane;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import javafx.application.Application;
-import javafx.geometry.*;
-import javafx.scene.*;
-import javafx.scene.control.Button;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+
+import javafx.application.Platform;
+import javafx.application.Application;
 
 public class App extends Application {
 
