@@ -36,10 +36,10 @@ public class App extends Application {
         TableView table = new Table().create();
 
         // Create Line Chart
-        LineChart lineChart = new Chart().create();
-        XYChart.Series<Number, Number> runSerie = new XYChart.Series<>();
+        final LineChart lineChart = new Chart().create();
+        XYChart.Series<String, Number> runSerie = new XYChart.Series<>();
         runSerie.setName("Process Running");
-        XYChart.Series<Number, Number> waitSerie = new XYChart.Series<>();
+        XYChart.Series<String, Number> waitSerie = new XYChart.Series<>();
         waitSerie.setName("Process Waiting");
         lineChart.getData().addAll(runSerie, waitSerie);
 
@@ -57,7 +57,7 @@ public class App extends Application {
 
         // Create window
         VBox vbox = new VBox();
-        //VBox.setVgrow(spLineChart, Priority.ALWAYS);//Make line chart always grow vertically
+        VBox.setVgrow(lineChart, Priority.ALWAYS);//Make line chart always grow vertically
         vbox.getChildren().addAll(splitPane,lineChart,button);
 
         // setup scene
@@ -86,8 +86,8 @@ public class App extends Application {
                 table.getItems().add(row);
 
                 // Add data to line chart
-                runSerie.getData().add(new XYChart.Data<>(tiempo, random));
-                waitSerie.getData().add(new XYChart.Data<>(tiempo, random2));
+                runSerie.getData().add(new XYChart.Data<>(tiempo.toString(), random));
+                waitSerie.getData().add(new XYChart.Data<>(tiempo.toString(), random2));
 
                 // Add data to pie chart
                 used.setPieValue(random);

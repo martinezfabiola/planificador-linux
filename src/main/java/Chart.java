@@ -8,13 +8,13 @@ public class Chart {
     public static LineChart create(){
 
         // Axis
-        NumberAxis processY = new NumberAxis();
-        NumberAxis timeX = new NumberAxis();
+        final NumberAxis processY = new NumberAxis();
+        final CategoryAxis timeX = new CategoryAxis();
         processY.setLabel("Process Quantity");
         timeX.setLabel("Time");
 
         // Chart
-        LineChart<Number, Number> lineChart = new LineChart<>(timeX, processY);
+        final LineChart<String, Number> lineChart = new LineChart<>(timeX, processY);
         lineChart.setTitle("Process Activity");
         lineChart.setAnimated(false);
         lineChart.setPrefSize(500, 500);
