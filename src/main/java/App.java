@@ -77,20 +77,12 @@ public class App extends Application {
         splitPane.getItems().addAll(table,pieChart);
 
         // Buttons
-        HBox buttonBox = new HBox();
-        Button button = new Button("Finish");
-        button.setOnMouseClicked((event)->{
+        HBox button = new CloseButton().create();
 
-        });
-        buttonBox.getChildren().add(button);
-        buttonBox.setAlignment(Pos.CENTER_RIGHT);
-        buttonBox.setPadding(new Insets(20));
-
-        
         // Create window
         VBox vbox = new VBox();
         //VBox.setVgrow(spLineChart, Priority.ALWAYS);//Make line chart always grow vertically
-        vbox.getChildren().addAll(splitPane,lineChart,buttonBox);
+        vbox.getChildren().addAll(splitPane,lineChart,button);
 
         // setup scene
         Scene scene = new Scene(vbox, 1000, 1000);
@@ -127,10 +119,10 @@ public class App extends Application {
 
                 tiempo++;
 
-//                if (runSerie.getData().size() > WINDOW_SIZE)
-//                    runSerie.getData().remove(0); // quita el primer elemento del grafico si se llena
-//                if (waitSerie.getData().size() > WINDOW_SIZE)
-//                    waitSerie.getData().remove(0); // quita el primer elemento del grafico si se llena
+                if (runSerie.getData().size() > WINDOW_SIZE)
+                    runSerie.getData().remove(0); // quita el primer elemento del grafico si se llena
+                if (waitSerie.getData().size() > WINDOW_SIZE)
+                    waitSerie.getData().remove(0); // quita el primer elemento del grafico si se llena
 
             });
         }, 0, delay, TimeUnit.SECONDS);
