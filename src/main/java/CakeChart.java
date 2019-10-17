@@ -5,6 +5,7 @@ public class CakeChart {
 
         PieChart pieChart = new PieChart();
         pieChart.setMaxWidth(500);
+        pieChart.setTitle("Use of Cores");
 
         return pieChart;
     }

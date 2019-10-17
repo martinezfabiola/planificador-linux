@@ -1,3 +1,4 @@
+import javafx.geometry.Insets;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -14,9 +15,10 @@ public class Chart {
 
         // Chart
         LineChart<Number, Number> lineChart = new LineChart<>(timeX, processY);
-        lineChart.setTitle("Cantidad de Procesos corriendo");
-        lineChart.setAnimated(false); // cancelar animacion, se descuadra el grafico :/
+        lineChart.setTitle("Process Activity");
+        lineChart.setAnimated(false);
         lineChart.setPrefSize(500, 500);
+        lineChart.setPadding(new Insets(20));
 
         return lineChart;
     }

@@ -27,6 +27,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.SplitPane;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,55 +56,41 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Planificador Linux");
 
-        // Create table
+        // Create Table
         TableView table = new Table().create();
-        //add data to table
-        for (int j = 0; j < 20; j++) {
-            ProcessInterface row = new ProcessInterface("iTunes",1234,"waiting",1234);
-            table.getItems().add(row);
-        }
 
-        // Line Chart
+        // Create Line Chart
         LineChart lineChart = new Chart().create();
         XYChart.Series<Number, Number> runSerie = new XYChart.Series<>();
-        runSerie.setName("Proceso corriendo");
+        runSerie.setName("Process Running");
         XYChart.Series<Number, Number> waitSerie = new XYChart.Series<>();
-        waitSerie.setName("Proceso en espera");
+        waitSerie.setName("Process Waiting");
         lineChart.getData().addAll(runSerie, waitSerie);
 
-        // Cake Chart
+        // Create Cake Chart
         PieChart pieChart = new CakeChart().create();
         PieChart.Data used = new PieChart.Data("Used", 0);
         PieChart.Data unused = new PieChart.Data("Unused"  , 0);
-        pieChart.getData().add(used);
-        pieChart.getData().add(unused);
+        pieChart.getData().addAll(used,unused);
+
+        SplitPane splitPane = new SplitPane();
+        splitPane.getItems().addAll(table,pieChart);
 
         // Buttons
-//        Button buttonL = new Button("Disminuir");
-//        buttonL.setOnMouseClicked((event)->{
-//            if (delay > 1) {
-//                delay--;
-//            }
-//            System.out.println(delay);
-//        });
-//
-//        Button buttonP = new Button("Aumentar");
-//        buttonP.setOnMouseClicked((event)->{
-//            delay++;
-//            System.out.println(delay);
-//        });
-//
-//        // agregar botones al otro contenedor
-//        TilePane spButton = new TilePane();
-//        spButton.setAlignment(buttonP, Pos.CENTER);
-//        spButton.setAlignment(buttonL, Pos.CENTER);
-//        spButton.getChildren().add(buttonP);
-//        spButton.getChildren().add(buttonL);
+        HBox buttonBox = new HBox();
+        Button button = new Button("Finish");
+        button.setOnMouseClicked((event)->{
+
+        });
+        buttonBox.getChildren().add(button);
+        buttonBox.setAlignment(Pos.CENTER_RIGHT);
+        buttonBox.setPadding(new Insets(20));
+
         
         // Create window
         VBox vbox = new VBox();
         //VBox.setVgrow(spLineChart, Priority.ALWAYS);//Make line chart always grow vertically
-        vbox.getChildren().addAll(table, pieChart, lineChart);
+        vbox.getChildren().addAll(splitPane,lineChart,buttonBox);
 
         // setup scene
         Scene scene = new Scene(vbox, 1000, 1000);
@@ -125,6 +112,11 @@ public class App extends Application {
             Integer random3 = ThreadLocalRandom.current().nextInt(100);
 
             Platform.runLater(() -> {
+
+                // Add data to table
+                ProcessInterface row = new ProcessInterface("iTunes",1234,"waiting",1234);
+                table.getItems().add(row);
+
                 // Add data to line chart
                 runSerie.getData().add(new XYChart.Data<>(tiempo, random));
                 waitSerie.getData().add(new XYChart.Data<>(tiempo, random2));
@@ -132,11 +124,14 @@ public class App extends Application {
                 // Add data to pie chart
                 used.setPieValue(random);
                 unused.setPieValue(random2);
+
                 tiempo++;
-//                if (series.getData().size() > WINDOW_SIZE)
-//                    series.getData().remove(0); // quita el primer elemento del grafico si se llena
-//                if (series2.getData().size() > WINDOW_SIZE)
-//                    series2.getData().remove(0); // quita el primer elemento del grafico si se llena
+
+//                if (runSerie.getData().size() > WINDOW_SIZE)
+//                    runSerie.getData().remove(0); // quita el primer elemento del grafico si se llena
+//                if (waitSerie.getData().size() > WINDOW_SIZE)
+//                    waitSerie.getData().remove(0); // quita el primer elemento del grafico si se llena
+
             });
         }, 0, delay, TimeUnit.SECONDS);
     }

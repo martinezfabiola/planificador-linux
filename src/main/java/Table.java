@@ -1,6 +1,7 @@
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.geometry.Insets;
 
 public class Table {
 
@@ -8,8 +9,8 @@ public class Table {
 
         TableView tableView = new TableView();
         tableView.setPrefSize( 100, 500 );
-        tableView.setMaxWidth(250);
-        tableView.setStyle( "-fx-alignment: CENTER;");
+        tableView.setMaxWidth(500);
+        tableView.setPadding(new Insets(10));
 
         TableColumn nameCol = new TableColumn();
         nameCol.setText("Name");
