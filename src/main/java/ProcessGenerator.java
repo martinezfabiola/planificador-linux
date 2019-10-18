@@ -4,21 +4,23 @@ import java.util.Random;
 
 public class ProcessGenerator implements Runnable {
     private RBTree<Integer> tree;
+    private Timer timer;
     private boolean loop;
     private Integer qty;
     private int timeInterval;
     private int processInterruptionRange;
 
-    ProcessGenerator(RBTree<Integer> tree, int timeInterval, int processInterruptionRange, boolean loop, Integer qty) {
+    ProcessGenerator(RBTree<Integer> tree, Timer timer, int timeInterval, int processInterruptionRange, boolean loop, Integer qty) {
         this.tree = tree;
+        this.timer = timer;
         this.loop = loop;
         this.qty = qty;
         this.timeInterval = timeInterval;
         this.processInterruptionRange = processInterruptionRange;
     }
 
-    ProcessGenerator(RBTree<Integer> tree) {
-        this(tree,100, 50, true, 100);
+    ProcessGenerator(RBTree<Integer> tree, Timer timer) {
+        this(tree, timer, 100, 50, true, 100);
     }
 
     public void run()
@@ -42,20 +44,22 @@ public class ProcessGenerator implements Runnable {
                 io.add(random.nextInt(100) + 1);
             }
 
-            Process process = new Process(id, random.nextInt(10), tiempo_llegada, cpu, io);
+            Integer priority = random.nextInt(40) - 20;
 
-            // TODO: Cual va a ser el tiempo de los procesos
-            tree.add(0, process);
+            Process process = new Process(id, priority, tiempo_llegada, cpu, io);
 
-            // TODO: Hacer algo con los procesos
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            while (timer.getTime() < tiempo_llegada) {
+                try {
+                    Thread.sleep(this.timer.sleepTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
-            id = id + 1;
+            tree.add(0, process);
+
             tiempo_llegada = tiempo_llegada + random.nextInt(this.timeInterval) + 1;
+            id = id + 1;
         }
 
     }

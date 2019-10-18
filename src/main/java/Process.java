@@ -7,6 +7,8 @@ public class Process {
     private List<Integer> cpuTimes;
     private List<Integer> ioTimes;
     Integer vruntime;
+    Integer runtime;
+    String state;
 
     Process(Integer pid, Integer priority, Integer arrivingTime, List<Integer> cpuTimes, List<Integer> ioTimes) {
         this.pid = pid;
@@ -15,6 +17,8 @@ public class Process {
         this.cpuTimes = cpuTimes;
         this.ioTimes = ioTimes;
         this.vruntime = 0;
+        this.runtime = 0;
+        this.state = "Ready";
     }
 
 
