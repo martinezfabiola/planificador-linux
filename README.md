@@ -14,19 +14,20 @@ La principal estructura para llevar a cabo estas tareas es un árbol rojo negro,
 
 # Requerimientos
 - Java 8
-- Maven
-- IDE (se recomienda IntelliJ)
+- Opcional: IDE (se recomienda IntelliJ)
 
 # Generador de Procesos
 
 **Entrada**
-- Argumentos : [ cantidad de procesos ]
+- Argumentos : [ cantidad de cores ][ cantidad de procesos ][ cantidad de io por procesos ] [ quantum de tiempo ] [ velocidad ] 
+
+Ej : 8 50 5 8 100
 
 **Salida**
-- Arreglos de procesos
-```
-[{"tiempoLlegada":0,"io":[42,97,89,13,59,0,98,58,74],"cpu":[22,82,69,83,45,96,70,69,29,45],"id":0,"prioridad":2},{"tiempoLlegada":70,"io":[60,37,84,20,12,52,58,51,73,19,96,47,30],"cpu":[36,14,58,26,22,4,94,17,60,79,44,90,37,69],"id":1,"prioridad":8},{"tiempoLlegada":165,"io":[52,48,67,3,5,47,30,45,23,98,44,64,47,11],"cpu":[76,4,58,44,75,74,52,98,36,72,96,0,80,20,4],"id":2,"prioridad":6}]
-```
+Ventana que contiene:
+- Tabla de procesos
+- Gráfico del uso de cores
+- Gráfica cantidad de procesos corriendo, esperando y listos vs tiempo
 
 # Árbol Rojo y Negro
 
@@ -38,4 +39,12 @@ arbol balanceado.
 
 Basado en: https://github.com/KnIfER/RBTree-java
 
+# Detalles del Planificador de Linux
 
+Clases:
+- Process: contiene la información del proceso (pid, prioridad, tiempo de llegada, cpu, io, vruntime, tiempo ejecución, estado, tiempo io).
+- ProcessGenerator: genera una cierta o infinita cantidad de procesos y los inserta en el árbol.
+- Dispatcher: despacha a cierto core el proceso a ejecutar.
+- IOHandler: se encarga del manejo de la interrupción.
+- Timer: contabiliza el tiempo transcurrido en milisegundos.
+- VruntimeCalculator: calcula el vruntime en base a la prioridad del proceso necesario para el CFS.
