@@ -1,3 +1,4 @@
+import Interface.*;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
@@ -6,7 +7,6 @@ import javafx.stage.Stage;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import javafx.scene.control.TableView;
@@ -27,28 +27,26 @@ public class App extends Application {
     public static Integer tiempo = 0;
     public static Integer delay = 1;
     public static Hashtable<Integer, Process> hashTable = new Hashtable<Integer, Process>();
-    public static CPU NoMeMatenPlis;
-
+    public static CPU cpu;
 
     public static void main(String[] args) {
 
-        Integer coreQty = Integer.parseInt(args[0]);
-        Integer processQty = Integer.parseInt(args[1]);
-        Integer ioRange = Integer.parseInt(args[2]);
-        Integer quantum =  Integer.parseInt(args[3]);
-        Integer sleepTime = Integer.parseInt(args[4]);
+        // Parameters
+        Integer coreQty = Integer.parseInt(args[0]);  // core quantity
+        Integer processQty = Integer.parseInt(args[1]);  // process quantity (0 for infinity process)
+        Integer ioRange = Integer.parseInt(args[2]);  // io quantity per process
+        Integer quantum =  Integer.parseInt(args[3]);  // time quantum
+        Integer sleepTime = Integer.parseInt(args[4]);  // speed
         Boolean loop = false;
 
-        if (processQty == 0)
+        if (processQty == 0) // infity process
             loop = true;
 
         Timer timer = new Timer(sleepTime);
 
         RBTree<Integer> tree = new RBTree<>();
 
-        CPU cpu = new CPU(quantum, coreQty, tree, timer);
-
-        NoMeMatenPlis = cpu;
+        cpu = new CPU(quantum, coreQty, tree, timer);
 
         ProcessGenerator processGenerator = new ProcessGenerator(tree, timer, ioRange, loop, processQty, hashTable);
         Thread thread1 = new Thread(processGenerator);
@@ -70,10 +68,10 @@ public class App extends Application {
 
         primaryStage.setTitle("Planificador Linux");
 
-        // Create Table
+        // Create Interface.Table
         TableView table = new Table().create();
 
-        // Create Line Chart
+        // Create Line Interface.Chart
         final LineChart lineChart = new Chart().create();
         XYChart.Series<String, Number> runSerie = new XYChart.Series<>();
         runSerie.setName("Process Running");
@@ -88,7 +86,7 @@ public class App extends Application {
         List<Process> readyL = new ArrayList<Process>();
         List<Process> finishedL = new ArrayList<Process>();
 
-        // Create Cake Chart
+        // Create Cake Interface.Chart
         PieChart pieChart = new CakeChart().create();
         PieChart.Data used = new PieChart.Data("Used", 0);
         PieChart.Data unused = new PieChart.Data("Unused"  , 0);
@@ -118,9 +116,7 @@ public class App extends Application {
 
         // Add data to chart
         scheduledExecutorService.scheduleAtFixedRate(() -> {
-
-            System.out.println("hash table size " + hashTable.size());
-
+            
             Platform.runLater(() -> {
 
                 table.getItems().clear();
@@ -169,11 +165,9 @@ public class App extends Application {
                 }
 
                 // Add data to pie chart
-                int n_used = Collections.frequency(NoMeMatenPlis.coresWorker.cores, true);
-                System.out.println("======== CPU CORES:" + NoMeMatenPlis.coresWorker.cores);
-                System.out.println("======== CPU CORES:" + n_used);
+                int n_used = Collections.frequency(cpu.coresWorker.cores, true);
                 used.setPieValue(n_used);
-                int n_unused = Collections.frequency(NoMeMatenPlis.coresWorker.cores, false);
+                int n_unused = Collections.frequency(cpu.coresWorker.cores, false);
                 unused.setPieValue(n_unused);
 
                 // Add data to line chart

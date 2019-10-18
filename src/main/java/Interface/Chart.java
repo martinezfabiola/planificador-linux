@@ -1,3 +1,5 @@
+package Interface;
+
 import javafx.geometry.Insets;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
@@ -13,7 +15,7 @@ public class Chart {
         processY.setLabel("Process Quantity");
         timeX.setLabel("Time");
 
-        // Chart
+        // Interface.Chart
         final LineChart<String, Number> lineChart = new LineChart<>(timeX, processY);
         lineChart.setTitle("Process Activity");
         lineChart.setAnimated(false);

@@ -63,6 +63,7 @@ class CoresWorker {
 
 
     public void runProcess(Integer id) {
+
         while (!this.cores.get(id)) {
             try {
                 Thread.sleep(timer.sleepTime);
@@ -70,6 +71,7 @@ class CoresWorker {
                 e.printStackTrace();
             }
         }
+
         Process process = processes.get(id);
         process.setState("Running");
         Integer cpuTime = process.getNextCpuTime();
@@ -77,6 +79,7 @@ class CoresWorker {
         Integer initTime = this.timer.getTime();
         Integer time = timer.getTime();
         Integer currentTime = 0;
+
         while (time - initTime < quantum && cpuTime > 0) {
             try {
                 Thread.sleep(timer.sleepTime);
@@ -102,14 +105,12 @@ class CoresWorker {
             } else {
                process.setState("Finished");
             }
-
         } else {
             process.remainingTime(cpuTime);
             process.setState("Ready");
             tree.add(process.vruntime, process);
         }
 
-        this.cores.set(id, false);
-
+       this.cores.set(id, false);
     }
 }

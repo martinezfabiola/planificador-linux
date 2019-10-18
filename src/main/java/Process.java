@@ -23,7 +23,6 @@ public class Process {
         this.iosHandled = 0;
     }
 
-
     public Integer getNextCpuTime() {
         if (! this.cpuTimes.isEmpty()){
             Integer nextCpuTime = this.cpuTimes.get(0);
@@ -42,7 +41,6 @@ public class Process {
         this.cpuTimes.add(0, time);
     }
 
-
     public Integer getNextIoTime() {
         if (! this.ioTimes.isEmpty()){
             Integer nextIoTime = this.ioTimes.get(0);
@@ -53,11 +51,9 @@ public class Process {
         return null;
     }
 
-
     public boolean hasAnotherIo() {
         return !this.ioTimes.isEmpty();
     }
-
 
     public Integer getPid() {
         return this.pid;

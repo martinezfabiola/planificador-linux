@@ -1,3 +1,5 @@
+package Interface;
+
 import javafx.scene.chart.PieChart;
 
 public class CakeChart {
