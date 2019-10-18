@@ -17,6 +17,7 @@ public class IOHandler implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        process.iosHandled = process.iosHandled + 1;
         process.setState("Ready");
         tree.add(process.vruntime, process);
     }

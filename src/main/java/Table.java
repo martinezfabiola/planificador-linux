@@ -9,7 +9,7 @@ public class Table {
 
         TableView tableView = new TableView();
         tableView.setPrefSize( 100, 500 );
-        tableView.setMaxWidth(500);
+        tableView.setMaxWidth(750);
         tableView.setPadding(new Insets(10));
 
         TableColumn nameCol = new TableColumn();
@@ -28,7 +28,19 @@ public class Table {
         cpuTimeCol.setText("CPU Time");
         cpuTimeCol.setCellValueFactory(new PropertyValueFactory("cpu"));
 
-        tableView.getColumns().addAll(nameCol, pidCol, stateCol, cpuTimeCol);
+        TableColumn priorityCol = new TableColumn();
+        priorityCol.setText("Priority");
+        priorityCol.setCellValueFactory(new PropertyValueFactory("priority"));
+
+        TableColumn vruntimeCol = new TableColumn();
+        vruntimeCol.setText("Vruntime");
+        vruntimeCol.setCellValueFactory(new PropertyValueFactory("vruntime"));
+
+        TableColumn iosCol = new TableColumn();
+        iosCol.setText("IO Qty");
+        iosCol.setCellValueFactory(new PropertyValueFactory("ios"));
+
+        tableView.getColumns().addAll(nameCol, pidCol, stateCol, cpuTimeCol, vruntimeCol, priorityCol, iosCol);
 
         return tableView;
     }

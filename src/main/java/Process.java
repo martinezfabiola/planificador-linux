@@ -9,6 +9,7 @@ public class Process {
     Integer vruntime;
     Integer runtime;
     String state;
+    Integer iosHandled;
 
     Process(Integer pid, Integer priority, Integer arrivingTime, List<Integer> cpuTimes, List<Integer> ioTimes) {
         this.pid = pid;
@@ -19,6 +20,7 @@ public class Process {
         this.vruntime = 0;
         this.runtime = 0;
         this.state = "Ready";
+        this.iosHandled = 0;
     }
 
 

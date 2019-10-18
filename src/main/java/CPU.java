@@ -86,8 +86,8 @@ class CoresWorker {
             time = timer.getTime();
             cpuTime = cpuTime - 1;
             currentTime = currentTime + 1;
+            process.runtime = process.runtime + 1;
         }
-        process.runtime = process.runtime + currentTime;
 
         vRuntimeCalculator.updateVRuntime(process, currentTime);
 
@@ -105,6 +105,7 @@ class CoresWorker {
 
         } else {
             process.remainingTime(cpuTime);
+            process.setState("Ready");
             tree.add(process.vruntime, process);
         }
 

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
@@ -8,17 +9,15 @@ public class ProcessGenerator implements Runnable {
     private boolean loop;
     private Integer qty;
     private int processInterruptionRange;
+    private Hashtable<Integer, Process> hashtable;
 
-    ProcessGenerator(RBTree<Integer> tree, Timer timer, int processInterruptionRange, boolean loop, Integer qty) {
+    ProcessGenerator(RBTree<Integer> tree, Timer timer, int processInterruptionRange, boolean loop, Integer qty, Hashtable<Integer, Process> hashtable) {
         this.tree = tree;
         this.timer = timer;
         this.loop = loop;
         this.qty = qty;
         this.processInterruptionRange = processInterruptionRange;
-    }
-
-    ProcessGenerator(RBTree<Integer> tree, Timer timer) {
-        this(tree, timer, 100, true, 100);
+        this.hashtable = hashtable;
     }
 
     public void run()
@@ -35,11 +34,11 @@ public class ProcessGenerator implements Runnable {
             int cantidadIO = cantidadCPU - 1; // Cantidad de IO
 
             for (int j = 0; j < cantidadCPU; j++) {
-                cpu.add(random.nextInt(250) + 1);
+                cpu.add(random.nextInt(500) + 1);
             }
 
             for (int k = 0; k < cantidadIO; k++) {
-                io.add(random.nextInt(250) + 1);
+                io.add(random.nextInt(500) + 1);
             }
 
             Integer priority = random.nextInt(40) - 20;
@@ -57,10 +56,11 @@ public class ProcessGenerator implements Runnable {
             }
 
             tree.add(0, process);
+            hashtable.put(process.getPid(), process);
 
             System.out.println("pid" + id);
 
-            tiempo_llegada = tiempo_llegada + random.nextInt(50) + 1;
+            tiempo_llegada = tiempo_llegada + random.nextInt(80) + 1;
             id = id + 1;
         }
 
