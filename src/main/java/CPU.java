@@ -37,6 +37,7 @@ class CoresWorker {
     RBTree<Integer> tree;
     Timer timer;
     Integer quantum;
+    VRuntimeCalculator vRuntimeCalculator = new VRuntimeCalculator();
 
     CoresWorker(RBTree<Integer> tree, Timer timer, Integer qty, Integer quantum) {
         this.quantum = quantum;
@@ -65,9 +66,10 @@ class CoresWorker {
         }
         Process process = processes.get(id);
         Integer cpuTime = process.getNextCpuTime();
-        processes.set(id, null);
+        this.processes.set(id, null);
         Integer initTime = this.timer.getTime();
         Integer time = timer.getTime();
+        Integer currentTime = 0;
         while (time - initTime < quantum && cpuTime > 0) {
             try {
                 Thread.sleep(timer.sleepTime);
@@ -76,15 +78,25 @@ class CoresWorker {
             }
             time = timer.getTime();
             cpuTime = cpuTime - 1;
+            currentTime = currentTime + 1;
         }
+        process.runtime = process.runtime + currentTime;
+
+        vRuntimeCalculator.updateVRuntime(process, currentTime);
 
         if (cpuTime == 0) {
-            new IOHandler(this.tree, process, this.timer);
+            if (process.hasAnotherIo()){
+                new IOHandler(this.tree, process, this.timer);
+            } else {
+                // TODO: Hacer algo con el proceso finalizado
+            }
+
         } else {
-            // TODO: Agregar el proceso de nuevo al arbol cambiando el vruntime
             process.remainingTime(cpuTime);
+            tree.add(process.vruntime, process);
         }
 
+        this.cores.set(id, false);
 
     }
 }
