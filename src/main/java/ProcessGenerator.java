@@ -7,20 +7,18 @@ public class ProcessGenerator implements Runnable {
     private Timer timer;
     private boolean loop;
     private Integer qty;
-    private int timeInterval;
     private int processInterruptionRange;
 
-    ProcessGenerator(RBTree<Integer> tree, Timer timer, int timeInterval, int processInterruptionRange, boolean loop, Integer qty) {
+    ProcessGenerator(RBTree<Integer> tree, Timer timer, int processInterruptionRange, boolean loop, Integer qty) {
         this.tree = tree;
         this.timer = timer;
         this.loop = loop;
         this.qty = qty;
-        this.timeInterval = timeInterval;
         this.processInterruptionRange = processInterruptionRange;
     }
 
     ProcessGenerator(RBTree<Integer> tree, Timer timer) {
-        this(tree, timer, 100, 50, true, 100);
+        this(tree, timer, 100, true, 100);
     }
 
     public void run()
@@ -37,16 +35,18 @@ public class ProcessGenerator implements Runnable {
             int cantidadIO = cantidadCPU - 1; // Cantidad de IO
 
             for (int j = 0; j < cantidadCPU; j++) {
-                cpu.add(random.nextInt(100) + 1);
+                cpu.add(random.nextInt(250) + 1);
             }
 
             for (int k = 0; k < cantidadIO; k++) {
-                io.add(random.nextInt(100) + 1);
+                io.add(random.nextInt(250) + 1);
             }
 
             Integer priority = random.nextInt(40) - 20;
 
             Process process = new Process(id, priority, tiempo_llegada, cpu, io);
+
+            System.out.println("Tiempo" + timer.getTime());
 
             while (timer.getTime() < tiempo_llegada) {
                 try {
@@ -58,7 +58,9 @@ public class ProcessGenerator implements Runnable {
 
             tree.add(0, process);
 
-            tiempo_llegada = tiempo_llegada + random.nextInt(this.timeInterval) + 1;
+            System.out.println("pid" + id);
+
+            tiempo_llegada = tiempo_llegada + random.nextInt(50) + 1;
             id = id + 1;
         }
 

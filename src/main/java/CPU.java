@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CPU {
-    Integer id;
     Integer coresQty;
     List<Core> cores = new ArrayList<>();
     CoresWorker coresWorker;
@@ -10,23 +9,30 @@ public class CPU {
     private Timer timer;
 
 
-    CPU(Integer id, Integer quantum, Integer coresQty, RBTree<Integer> tree, Timer timer, IOHandler handler) {
-        this.id = id;
+    CPU(Integer quantum, Integer coresQty, RBTree<Integer> tree, Timer timer) {
         this.coresQty = coresQty;
         this.tree = tree;
         this.timer = timer;
         this.coresWorker = new CoresWorker(tree, timer, coresQty, quantum);
         for (Integer i = 0; i < coresQty; i++) {
-            cores.add(new Core(i, this.coresWorker));
+            Core newCore = new Core(i, this.coresWorker);
+            Thread newThread = new Thread(newCore);
+            newThread.start();
+            cores.add(newCore);
         }
     }
 
     public synchronized void dispatchProcess(Process process) {
+        boolean dispatched = false;
         for (int i = 0; i < this.coresQty; i++) {
-            if (this.coresWorker.cores.get(i)) {
+            if (!this.coresWorker.cores.get(i)) {
                 this.coresWorker.dispatchProcess(process, i);
+                dispatched = true;
+                break;
             }
         }
+        if (!dispatched)
+            tree.add(process.vruntime, process);
     }
 }
 
@@ -52,7 +58,7 @@ class CoresWorker {
 
     public synchronized void dispatchProcess(Process process, int id){
         this.processes.set(id, process);
-        this.cores.set(id, false);
+        this.cores.set(id, true);
     }
 
 
@@ -65,6 +71,7 @@ class CoresWorker {
             }
         }
         Process process = processes.get(id);
+        process.setState("Running");
         Integer cpuTime = process.getNextCpuTime();
         this.processes.set(id, null);
         Integer initTime = this.timer.getTime();
@@ -84,11 +91,16 @@ class CoresWorker {
 
         vRuntimeCalculator.updateVRuntime(process, currentTime);
 
-        if (cpuTime == 0) {
+        System.out.println("Corrio proceso " + process.getPid() + " por tiempo " + currentTime );
+
+       if (cpuTime == 0) {
             if (process.hasAnotherIo()){
-                new IOHandler(this.tree, process, this.timer);
+                process.setState("Waiting");
+                IOHandler ioHandler = new IOHandler(this.tree, process, this.timer);
+                Thread threadDonatoEsBolsa = new Thread(ioHandler);
+                threadDonatoEsBolsa.start();
             } else {
-                // TODO: Hacer algo con el proceso finalizado
+               process.setState("Finished");
             }
 
         } else {

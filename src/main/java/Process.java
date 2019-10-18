@@ -32,6 +32,9 @@ public class Process {
         return null;
     }
 
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public void remainingTime(Integer time) {
         this.cpuTimes.add(0, time);

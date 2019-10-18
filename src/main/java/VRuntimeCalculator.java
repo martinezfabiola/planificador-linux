@@ -13,12 +13,10 @@ public class VRuntimeCalculator {
     };
 
     private static final int NICE_0_VALUE = 1024;
-
     
     private Integer prioToAccess(Integer priority){
         return priority + 20;
     }
-
 
     void updateVRuntime(Process process, Integer currentCycle) {
         process.vruntime = process.vruntime +

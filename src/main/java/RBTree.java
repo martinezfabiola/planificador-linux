@@ -2,12 +2,17 @@ public class RBTree<T extends Comparable<T>> {
     private static final boolean RED   = false;
     private static final boolean BLACK = true;
 
-    private RBNode<T> root;
+    private boolean writing = false;
+
+    RBNode<T> root;
 
     public RBTree() {
         this.root = null;
     }
 
+    public synchronized boolean hasElements() {
+        return this.root != null;
+    }
 
     private boolean isRed(RBNode<T> node) {
         return ((node != null)) && node.color == RED;
@@ -22,6 +27,15 @@ public class RBTree<T extends Comparable<T>> {
     private synchronized void setBlack(RBNode<T> node) {
         if (node != null)
             node.color = BLACK;
+    }
+
+
+    void inOrder(RBNode<T> tree) {
+        if(tree != null) {
+            inOrder(tree.left);
+            System.out.print(tree.process.getPid()+" ");
+            inOrder(tree.right);
+        }
     }
 
 
@@ -54,8 +68,19 @@ public class RBTree<T extends Comparable<T>> {
 
 
     public synchronized void add(T key, Process process) {
+        while (writing) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        writing = true;
         RBNode<T> newNode = new RBNode<T>(key, process, RED, null, null, null);
         insert(newNode);
+        this.writing = false;
+        notify();
+
     }
 
 
@@ -261,6 +286,15 @@ public class RBTree<T extends Comparable<T>> {
     }
 
     private synchronized void remove(RBNode<T> node) {
+        while (writing) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        this.writing = true;
+
         RBNode<T> child, parent;
         boolean color;
 
@@ -304,6 +338,8 @@ public class RBTree<T extends Comparable<T>> {
             if (color == BLACK)
                 removeFixUp(child, parent);
 
+            this.writing = false;
+            notify();
             return ;
         }
 
@@ -330,6 +366,9 @@ public class RBTree<T extends Comparable<T>> {
 
         if (color == BLACK)
             removeFixUp(child, parent);
+
+        this.writing = false;
+        notify();
     }
 
     private synchronized void removeFixUp(RBNode<T> node, RBNode<T> parent) {

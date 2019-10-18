@@ -1,6 +1,5 @@
 public class Timer {
     private int clock;
-    int speed;
     int sleepTime;
 
     Timer(int sleepTime){
