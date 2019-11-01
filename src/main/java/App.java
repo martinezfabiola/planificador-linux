@@ -66,7 +66,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        primaryStage.setTitle("Planificador Linux");
+        primaryStage.setTitle("Linux Scheduler");
 
         // Create Interface.Table
         TableView table = new Table().create();
@@ -97,12 +97,12 @@ public class App extends Application {
         splitPane.getItems().addAll(table,pieChart);
 
         // Buttons
-        HBox button = new CloseButton().create();
+        HBox buttom = new CloseButton().create(hashTable);
 
         // Create window
         VBox vbox = new VBox();
         VBox.setVgrow(lineChart, Priority.ALWAYS);//Make line chart always grow vertically
-        vbox.getChildren().addAll(splitPane,lineChart,button);
+        vbox.getChildren().addAll(splitPane,lineChart, buttom);
 
         // setup scene
         Scene scene = new Scene(vbox, 1045, 1000);
@@ -128,6 +128,7 @@ public class App extends Application {
                 Set<Integer> keys = hashTable.keySet();
                 int n_waiting = 0;
                 int n_ready = 0;
+
                 for(Integer key: keys){
                     Process process = hashTable.get(key);
 
